@@ -1,6 +1,6 @@
 package br.com.tgid.tgidtransaction.service;
 
-import br.com.tgid.tgidtransaction.exception.CompanyException;
+import br.com.tgid.tgidtransaction.exception.CompanyAlreadyExistsException;
 import br.com.tgid.tgidtransaction.model.Company;
 import br.com.tgid.tgidtransaction.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class CompanyService {
 
         Optional<Company> company1 = companyRepository.findCompanyByCnpj(company.getCnpj());
         if (company1.isPresent()) {
-            throw new CompanyException("Company already exists!");
+            throw new CompanyAlreadyExistsException("Company already exists!");
         }
         return companyRepository.save(company);
     }
@@ -32,7 +32,7 @@ public class CompanyService {
         Optional<Company> company1 = companyRepository.findById(id);
 
         if (company1.isEmpty()) {
-            throw new CompanyException("This user doesn't exist!");
+            throw new CompanyAlreadyExistsException("This user doesn't exist!");
         }
 
         Company companyAux = company1.get();
@@ -45,7 +45,7 @@ public class CompanyService {
         Optional<Company> company = companyRepository.findById(id);
 
         if (company.isEmpty()) {
-            throw new CompanyException("This company doesn't exist!");
+            throw new CompanyAlreadyExistsException("This company doesn't exist!");
         }
 
         companyRepository.delete(company.get());
@@ -55,7 +55,7 @@ public class CompanyService {
         Optional<Company> company = companyRepository.findById(id);
 
         if (company.isEmpty()) {
-            throw new CompanyException("This company doesn't exist!");
+            throw new CompanyAlreadyExistsException("This company doesn't exist!");
         }
 
         return company.get();
