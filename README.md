@@ -10,5 +10,6 @@ Transação de Depósito (V)
 Taxas durante transações (V)
 Tratamento de Erros (V)
 Ajuste de respostas HTTP (V)
+Encaminhar Notificação via email (V)
 Testes (X)
-Encaminhar Notificação via email (X)
+
