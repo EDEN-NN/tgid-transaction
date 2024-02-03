@@ -1,8 +1,11 @@
 package br.com.tgid.tgidtransaction.controller;
 
+import br.com.tgid.tgidtransaction.dto.CustomerDTO;
+import br.com.tgid.tgidtransaction.model.Company;
 import br.com.tgid.tgidtransaction.model.Customer;
 import br.com.tgid.tgidtransaction.service.CustomerService;
 import org.apache.coyote.Response;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +26,17 @@ public class CustomerController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
         customerService.createCustomer(customer);
         return ResponseEntity.created(URI.create("/customers")).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable Long id) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
         return ResponseEntity.accepted().body(customerService.updateCustomer(customer, id));
     }
 

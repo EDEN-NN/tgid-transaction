@@ -21,8 +21,32 @@ public class StandardExceptionHandler {
     }
 
     @ExceptionHandler(CompanyAlreadyExistsException.class)
-    public ResponseEntity<StandardError> CompanyAlreadyExistsException(CompanyAlreadyExistsException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> companyAlreadyExistsException(CompanyAlreadyExistsException e, HttpServletRequest request) {
         String error = "Unable to create company.";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<StandardError> customerNotFoundException(CustomerNotFoundException e, HttpServletRequest request) {
+        String error = "Unable to update or delete this customer.";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<StandardError> companyNotFoundException(CompanyNotFoundException e, HttpServletRequest request) {
+        String error = "Unable to update or delete this customer.";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(TransactionException.class)
+    public ResponseEntity<StandardError> transactionException(TransactionException e, HttpServletRequest request) {
+        String error = "Unable to continue this transaction.";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);

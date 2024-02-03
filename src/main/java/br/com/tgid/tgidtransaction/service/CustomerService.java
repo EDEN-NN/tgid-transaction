@@ -1,6 +1,8 @@
 package br.com.tgid.tgidtransaction.service;
 
 import br.com.tgid.tgidtransaction.exception.CustomerAlreadyExistsException;
+import br.com.tgid.tgidtransaction.exception.CustomerNotFoundException;
+import br.com.tgid.tgidtransaction.exception.TransactionException;
 import br.com.tgid.tgidtransaction.model.Company;
 import br.com.tgid.tgidtransaction.model.Customer;
 import br.com.tgid.tgidtransaction.repository.CustomerRepository;
@@ -39,7 +41,7 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
 
         if (customer.isEmpty()) {
-            throw new CustomerAlreadyExistsException("Customer not found!");
+            throw new CustomerNotFoundException("Customer not found!");
         }
 
         return customer.get();
@@ -49,7 +51,7 @@ public class CustomerService {
         Optional<Customer> customer1 = customerRepository.findById(id);
 
         if (customer1.isEmpty()) {
-            throw new CustomerAlreadyExistsException("This user doesn't exist!");
+            throw new CustomerNotFoundException("Customer not found.");
         }
 
         Customer customerAux = customer1.get();
@@ -62,7 +64,7 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
 
         if (customer.isEmpty()) {
-            throw new CustomerAlreadyExistsException("This user doesn't exist!");
+            throw new CustomerNotFoundException("Customer not found");
         }
 
         customerRepository.delete(customer.get());
@@ -86,7 +88,7 @@ public class CustomerService {
                 customerRepository.save(customer);
                 companyService.updateCompany(company, company.getId());
             } else {
-                throw new CustomerAlreadyExistsException("You don't have money enough to do this transaction!");
+                throw new TransactionException("You don't have money enough to do this transaction!");
             }
         } catch(Exception e) {
             e.getMessage();
@@ -97,7 +99,6 @@ public class CustomerService {
         Customer customer = this.findById(customerId);
         Company company = companyService.findById(customer.getCompanyId());
 
-        try {
             if (value <= customer.getAmount()) {
                 customer.setAmount(customer.getAmount() - value);
                 Double transactionValue = transactionService.saveDeposit(customerId, company.getId(), value);
@@ -110,11 +111,8 @@ public class CustomerService {
                 customerRepository.save(customer);
                 companyService.updateCompany(company, company.getId());
             } else {
-                throw new CustomerAlreadyExistsException("You don't have money enough to do this transaction!");
+                throw new TransactionException("You don't have money enough to do this transaction!");
             }
-        } catch(Exception e) {
-            e.getMessage();
-        }
     }
 
 }
