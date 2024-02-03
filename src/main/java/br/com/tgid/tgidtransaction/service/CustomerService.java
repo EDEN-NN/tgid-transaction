@@ -24,6 +24,9 @@ public class CustomerService {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private EmailService emailService;
+
     public Customer createCustomer(Customer customer) {
 
         Optional<Customer> customer1 = customerRepository.findByCpf(customer.getCpf());
@@ -87,6 +90,7 @@ public class CustomerService {
                         " Company: " + company.getName());
                 customerRepository.save(customer);
                 companyService.updateCompany(company, company.getId());
+                emailService.prepareEmail(customer.getName(), company.getName(), transactionValue, "WITHDRAW");
             } else {
                 throw new TransactionException("You don't have money enough to do this transaction!");
             }
@@ -110,6 +114,7 @@ public class CustomerService {
                         " Company: " + company.getName());
                 customerRepository.save(customer);
                 companyService.updateCompany(company, company.getId());
+                emailService.prepareEmail(customer.getName(), company.getName(), transactionValue, "DEPOSIT");
             } else {
                 throw new TransactionException("You don't have money enough to do this transaction!");
             }

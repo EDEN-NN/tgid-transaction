@@ -1,5 +1,6 @@
 package br.com.tgid.tgidtransaction.service;
 
+import br.com.tgid.tgidtransaction.model.Email;
 import br.com.tgid.tgidtransaction.model.Transaction;
 import br.com.tgid.tgidtransaction.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
