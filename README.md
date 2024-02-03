@@ -13,3 +13,6 @@ Ajuste de respostas HTTP (V)
 Encaminhar Notificação via email (V)
 Testes (X)
 
+ATENÇÃO
+
+Será necessário inserir as credencias de email no arquivo application.properties para que os disparos de email sejam realizados.
