@@ -11,6 +11,7 @@ Taxas durante transações (V) -
 Tratamento de Erros (V) -
 Ajuste de respostas HTTP (V) -
 Encaminhar Notificação via email (V) -
+Documentação (feita com Swagger) (V) -
 Testes (X)
 
 ATENÇÃO
