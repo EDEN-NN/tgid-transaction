@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -50,6 +51,39 @@ public class AccountService {
             accountDTOS.add(accountDTO);
         });
         return accountDTOS;
+    }
+
+    public AccountDTO findById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isEmpty()) {
+            throw new AssignUserException("Account not found.");
+        }
+        AccountDTO accountDTO = new AccountDTO();
+        BeanUtils.copyProperties(account.get(), accountDTO);
+        return accountDTO;
+    }
+
+    public Account findEntityById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isEmpty()) {
+            throw new AssignUserException("Account not found.");
+        }
+
+        return account.get();
+    }
+
+    public AccountDTO updateAccount(AccountDTO accountDTO, Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+
+        if (account.isEmpty()) {
+            throw new AssignUserException("Account not found.");
+        }
+
+        BeanUtils.copyProperties(accountDTO, account.get());
+        account.get().setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+
+        accountRepository.save(account.get());
+        return accountDTO;
     }
 
     public AccountDTO assignUserAndCompany(Long userId, Long companyId, Double balance) throws AssignUserException{

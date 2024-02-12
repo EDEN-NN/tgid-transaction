@@ -13,9 +13,9 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-//    @PostMapping("customer/{id}/withdraw")
-//    public ResponseEntity<TransactionDTO> doWithdraw(@PathVariable Long customerId, @RequestBody Double value) {
-//        return ResponseEntity.accepted().body(transactionService.saveWithdraw(customerId, value));
-//    }
+    @PostMapping("transactions/{accountId}/withdraw")
+    public ResponseEntity<TransactionDTO> doWithdraw(@PathVariable Long accountId, @RequestBody Double value) {
+        return ResponseEntity.accepted().body(transactionService.saveWithdraw(accountId, value));
+    }
 
 }
