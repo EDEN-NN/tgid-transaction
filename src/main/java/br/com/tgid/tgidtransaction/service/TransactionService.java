@@ -2,6 +2,7 @@ package br.com.tgid.tgidtransaction.service;
 
 import br.com.tgid.tgidtransaction.dto.AccountDTO;
 import br.com.tgid.tgidtransaction.dto.TransactionDTO;
+import br.com.tgid.tgidtransaction.exception.TransactionException;
 import br.com.tgid.tgidtransaction.model.Account;
 import br.com.tgid.tgidtransaction.model.Transaction;
 import br.com.tgid.tgidtransaction.model.TransactionType;
@@ -31,6 +32,9 @@ public class TransactionService {
         Transaction transaction = new Transaction();
         TransactionDTO transactionDTO = new TransactionDTO();
 
+        if (value > account.getBalance()) {
+            throw new TransactionException("You cannot withdraw this value.");
+        }
         transaction.setTransactionValue(value - (value * 0.02));
         transaction.setAccount(account);
         transaction.setType(TransactionType.WITHDRAW);
