@@ -18,4 +18,9 @@ public class TransactionController {
         return ResponseEntity.accepted().body(transactionService.saveWithdraw(accountId, value));
     }
 
+    @PostMapping("transactions/{accountId}/deposit")
+    public ResponseEntity<TransactionDTO> doDeposit(@PathVariable Long accountId, @RequestBody Double value) {
+        return ResponseEntity.accepted().body(transactionService.saveDeposit(accountId, value));
+    }
+
 }

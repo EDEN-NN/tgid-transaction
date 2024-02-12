@@ -39,6 +39,30 @@ public class TransactionService {
         BeanUtils.copyProperties(transaction, transactionDTO);
 
         accountService.updateAccount(accountDTO, accountId);
+        transaction.setAccount(account);
+
+        transactionRepository.save(transaction);
+        return transactionDTO;
+    }
+
+    public TransactionDTO saveDeposit(Long accountId, Double value) {
+        Account account = accountService.findEntityById(accountId);
+        AccountDTO accountDTO = accountService.findById(accountId);
+        Transaction transaction = new Transaction();
+        TransactionDTO transactionDTO = new TransactionDTO();
+
+        transaction.setTransactionValue(value - (value * 0.02));
+        transaction.setAccount(account);
+        transaction.setType(TransactionType.DEPOSIT);
+
+        accountDTO.setBalance(accountDTO.getBalance() + value - (value * 0.02));
+
+
+        BeanUtils.copyProperties(accountDTO, account);
+        BeanUtils.copyProperties(transaction, transactionDTO);
+        transactionDTO.setAccount(account);
+
+        accountService.updateAccount(accountDTO, accountId);
         transactionRepository.save(transaction);
         return transactionDTO;
     }
