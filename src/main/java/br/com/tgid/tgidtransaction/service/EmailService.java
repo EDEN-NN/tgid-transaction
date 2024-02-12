@@ -39,12 +39,12 @@ public class EmailService {
         }
     }
 
-    public void prepareEmail(String customerName, String companyName, Double transactionValue, String type) {
+    public void prepareEmail(String userName, String companyName, Double transactionValue, String type) {
         Email email = new Email();
-        email.setEmailFrom("9c9bd215-2520-451f-9cd5-4b1ffa99c2ab@email.webhook.site");
-        email.setEmailTo("9c9bd215-2520-451f-9cd5-4b1ffa99c2ab@email.webhook.site");
+        email.setEmailFrom("b2fd8c32-9149-4d2b-88e6-4530d4bdb29d@email.webhook.site");
+        email.setEmailTo("b2fd8c32-9149-4d2b-88e6-4530d4bdb29d@email.webhook.site");
         email.setSubject("Success on transaction!");
-        email.setText(type + " TRANSACTION REALIZED BY " + customerName + " ON THE COMPANY " + companyName + ". VALUE: " + transactionValue);
+        email.setText(type + " TRANSACTION REALIZED BY " + userName + " ON THE COMPANY " + companyName + ". VALUE: " + transactionValue);
         this.sendEmail(email);
 
     }

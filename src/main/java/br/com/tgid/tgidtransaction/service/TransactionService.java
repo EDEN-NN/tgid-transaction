@@ -22,6 +22,9 @@ public class TransactionService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private EmailService emailService;
+
     public TransactionDTO saveWithdraw(Long accountId, Double value) {
         Account account = accountService.findEntityById(accountId);
         AccountDTO accountDTO = accountService.findById(accountId);
@@ -42,6 +45,7 @@ public class TransactionService {
         transaction.setAccount(account);
 
         transactionRepository.save(transaction);
+        this.prepareTransactionEmail(account, transaction);
         return transactionDTO;
     }
 
@@ -64,7 +68,12 @@ public class TransactionService {
 
         accountService.updateAccount(accountDTO, accountId);
         transactionRepository.save(transaction);
+        this.prepareTransactionEmail(account, transaction);
         return transactionDTO;
+    }
+
+    public void prepareTransactionEmail(Account account, Transaction transaction) {
+        this.emailService.prepareEmail(account.getUser().getName(), account.getCompany().getName(), transaction.getTransactionValue(), transaction.getType().toString());
     }
 
 }
