@@ -16,13 +16,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
-
-    private Long companyId;
-
+    @Column(name = "transaction_value")
     private double transactionValue;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
 }

@@ -1,7 +1,0 @@
-package br.com.tgid.tgidtransaction.exception;
-
-public class CustomerAlreadyExistsException extends RuntimeException {
-    public CustomerAlreadyExistsException(String message) {
-        super(message);
-    }
-}

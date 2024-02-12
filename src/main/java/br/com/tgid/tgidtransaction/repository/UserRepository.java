@@ -1,13 +1,12 @@
 package br.com.tgid.tgidtransaction.repository;
 
-import br.com.tgid.tgidtransaction.model.Customer;
+import br.com.tgid.tgidtransaction.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Optional<Customer> findByCpf(String cpf);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByCpf(String cpf);
 }

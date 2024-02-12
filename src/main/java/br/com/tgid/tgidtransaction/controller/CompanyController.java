@@ -20,24 +20,20 @@ public class CompanyController {
     private CompanyService companyService;
 
     @GetMapping()
-    public ResponseEntity<List<Company>> findAll() {
+    public ResponseEntity<List<CompanyDTO>> findAll() {
         return ResponseEntity.ok(companyService.findAll());
     }
 
     @PostMapping("create")
-    public ResponseEntity<Company> createCompany(@RequestBody CompanyDTO companyDTO) {
-        Company company = new Company();
-        BeanUtils.copyProperties(companyDTO, company);;
+    public ResponseEntity<CompanyDTO> createCompany(@RequestBody CompanyDTO companyDTO) {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(companyService.createCompany(company).getId()).toUri();
+                .buildAndExpand(companyService.createCompany(companyDTO)).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Company> updateCompany(@RequestBody CompanyDTO companyDTO, @PathVariable Long id) {
-        Company company = new Company();
-        BeanUtils.copyProperties(companyDTO, company);
-        return ResponseEntity.accepted().body(companyService.updateCompany(company, id));
+    public ResponseEntity<CompanyDTO> updateCompany(@RequestBody CompanyDTO companyDTO, @PathVariable Long id) {
+        return ResponseEntity.accepted().body(companyService.updateCompany(companyDTO, id));
     }
 
     @DeleteMapping("{id}")
@@ -45,5 +41,10 @@ public class CompanyController {
         companyService.deleteCompany(id);
         return ResponseEntity.ok().build();
     }
+
+//    @PostMapping("{id}/assign")
+//    public ResponseEntity<Company> assignCustomer(@PathVariable Long companyId, @RequestBody Long customerId) {
+//        return ResponseEntity.accepted().body(companyService.assignCustomer(customerId, companyId));
+//    }
 
 }
